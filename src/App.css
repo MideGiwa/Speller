@@ -1,5 +1,12 @@
+* {
+  box-sizing: border-box;
+}
 .App {
   text-align: center;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
 .header {
@@ -153,6 +160,13 @@ main {
   to {
     border-width: 24px;
   }
+}
+
+
+
+
+@media (max-width: 1199px) and (min-width: 769px) {
+
 }
 /*
 .navbar-container {
@@ -323,3 +337,4 @@ body {
 
 
 */
+
