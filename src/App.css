@@ -115,6 +115,7 @@ main {
 
 #card {
   display: flex;
+  flex-direction: column;
   background-color: #ffffff;
   width: 35rem;
   height: 22rem;
@@ -165,8 +166,20 @@ main {
 
 
 
-@media (max-width: 1199px) and (min-width: 769px) {
+@media screen and (max-width: 560px) {
+  main {
+    flex-direction: column;
+  }
 
+  #transcription {
+    color: black;
+    font-size: 1.2rem;
+  
+  }
+  
+  #card {
+    width: 14rem;
+  }
 }
 /*
 .navbar-container {
