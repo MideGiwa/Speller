@@ -1,39 +1,57 @@
 import React, { useState } from 'react';
 import microphone from '../images/microphone.png';
-
-function isDef(data) {
-    if (Object.keys(data).length > 10) {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-
-
-// function hideloader() {
-//     document.getElementById('loading').style.display = 'none';
-// };
-
-
+import DictionApi from '../Api/ApiKeys';
 
 export default function Body() {
     //Initializing values...
-    const Dict_Api_Key = "affcc4fe-86cc-493f-98b2-22549306b986";
-    const Thes_Api_Key = "";
-
     const [transcribed, setTranscribed] = useState('Just say the word!')
     const [def1, setDef1] = useState('Press the microphone button to speak!');
     const [def2, setDef2] = useState('');
+    const microphoneButton = <img src={microphone} title="record" className="microphone--image" />;
+    const loadingIcon1 = "Loading..." //<img src={microphone} title="record" className="microphone--image" />
+    const loadingIcon2 = "Loading..." //<img src={microphone} title="record" className="microphone--image" />
+    const [buttonIcon, setButtonIcon] = useState(microphoneButton)
+
+    function hideloader() {
+        const startBtn = document.querySelector('#transcription');
+        if (startBtn.classList.contains('listening')) {
+            setButtonIcon(loadingIcon1);
+        } else {
+            setButtonIcon(microphoneButton)
+        }
+    };
+
 
     async function Search(word) {
         // Storing response...
-        const response = await fetch('https://www.dictionaryapi.com/api/v3/references/collegiate/json/' + word + '?key=' + Dict_Api_Key);
+        const response = await fetch('https://www.dictionaryapi.com/api/v3/references/collegiate/json/' + word + '?key=' + DictionApi.dict);
 
         // Storing data in form of JSON...
         var data = await response.json();
-        setDef1(data[0].shortdef[0]);
-        setDef2(data[1].shortdef[0]);
+        console.log(data);
+
+        if (!(data[0].shortdef)) {
+            const dataArr = data.map(data => {
+                const find = (data) => { return Search(data)};
+                return <li className="lst--item" onClick={find}> {data}</li>
+            });
+            // const dataArr = [];
+            // for (let i = 0; i < data.length; i++) {
+            //     dataArr.push(
+            //         <li className="lst--item" onClick={Search(data.i)}> {data.i}</li>
+            //     )
+            // }
+            setDef1(<h5>Did you mean:</h5>)
+            setDef2(
+                <ul id="sug--list">
+                    {dataArr}
+                </ul>
+            )
+        }
+        else {
+            setDef1(data[0].shortdef[0]);
+            setDef2(data[1].shortdef[0]);
+        }
 
     };
     // Adding functionality to record button...
@@ -58,33 +76,30 @@ export default function Body() {
         };
 
         // Start/stop recording audio...
-        if (startBtn.classList.contains('listening')) recognition.stop();
+        if (startBtn.classList.contains('listening')) recognition.stop() && hideloader();
         else {
             recognition.start();
+            hideloader();
         }
         startBtn.classList.toggle('listening');
     };
 
     return (
         <main>
-            <section className='mid--section'>
-                <div id="startBtn" onClick={Start} className="microphone--button">
-                    <img src={microphone} title="record" className="microphone--image" />
-                </div>
-            </section>
-            <section className='right--section'>
-                <div id="card" >
-                    <h1 id="transcription" > {transcribed}</h1>
-                    {/* <div class="spinner-border"
+            <div id="startBtn" onClick={Start} className="microphone--button">
+                {buttonIcon}
+            </div>
+            <div id="card" >
+                <h1 id="transcription" > {transcribed}</h1>
+                {/* <div class="spinner-border"
                         role="status" id="loading">
                         <span class="sr-only">Loading...</span>
                     </div> */}
-
-                    <div className="definition">{def1}</div>
-                    <div className="definition">{def2}</div>
+                <div className='def--box'>
+                    <div id="def1" className="definition">{def1}</div>
+                    <div id="def2" className="definition">{def2}</div>
                 </div>
-
-            </section>
-        </main>
+            </div>
+        </main >
     )
 }

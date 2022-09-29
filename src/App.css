@@ -1,11 +1,14 @@
 * {
   box-sizing: border-box;
 }
+
 .App {
   text-align: center;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: inherit;
 }
 
@@ -77,26 +80,28 @@ main {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
   padding: 20px;
-  margin-left: 40px;
-  margin-right: 40px;
+  justify-content: space-around;
 }
 
 .mid--section {
   display: flex;
-  justify-content: center;
+  width: 136px;
   align-items: center;
-  height: max-content;
-  flex-direction: column;
+  justify-content: space-around;
 }
 
 .microphone--button {
   border-radius: 100%;
   /*box-shadow: 0px -2px 10px rgb(0 0 0 / 15%);*/
-  box-shadow: 0 2px 5px rgb(0 0 0 / 10%);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 15%);
+  width: max-content;
   background-color: #fff;
-  margin-left: -50px;
+  position: relative;
+  margin: 70px;
+  margin-top: 70px;
+  margin-bottom: 70px;
+
 
 }
 
@@ -117,22 +122,46 @@ main {
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
-  width: 35rem;
+  width: 30rem;
   height: 22rem;
   border-radius: 0.75em;
   border: 0px solid rgba(0, 0, 0, 0.2);
   padding: 10px 30px;
   box-shadow: -2px -2px 20px rgb(0 0 0 / 15%);
-  
+  position: relative;
+  margin-right: 70px;
+  margin-top: 70px;
+  margin-bottom: 70px;
+
+}
+
+.def--box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-around;
 }
 
 .definition {
   display: flex;
   flex-direction: column;
-  padding: 40px;
   color: black;
   font-weight: 400;
+  font-style: italic;
+  padding: 50px;
+  margin-top: -30px;
+}
+
+#def2 {
+  font-size: 15px;
+  font-weight: 400;
   
+}
+
+.lst--item {
+  display: inline;
+  list-style-type: none;
+  padding: 2px;
 }
 
 #transcription {
@@ -141,6 +170,13 @@ main {
 
 }
 
+#sug--list {
+display: flex;
+flex-direction: row;
+list-style: none;
+width: 25rem;
+word-wrap: normal;
+}
 
 #card::before {
   font-size: 24px;
@@ -148,8 +184,8 @@ main {
 }
 
 .listening::before {
-    animation: listening 1s ease-in;
-    animation-iteration-count: infinite;
+  animation: listening 1s ease-in;
+  animation-iteration-count: infinite;
 }
 
 
@@ -166,21 +202,37 @@ main {
 
 
 
-@media screen and (max-width: 560px) {
+@media screen and (max-width: 600px) {
   main {
     flex-direction: column;
+    
   }
-
+  .mid--section {
+    display: flex;
+    height: max-content;
+    flex-direction: column;
+  }
+  
+  .microphone--button {
+    margin-top: 200px;
+  
+  }
   #transcription {
     color: black;
     font-size: 1.2rem;
-  
+
   }
-  
+
+  .right--section {
+    visibility: hidden;
+  }
   #card {
     width: 14rem;
+    display: none;
+    
   }
 }
+
 /*
 .navbar-container {
   width: 100%;
@@ -350,7 +402,3 @@ body {
 
 
 */
-
-
-
-
