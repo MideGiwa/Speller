@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import microphone from '../images/microphone.png';
 import DictionApi from '../Api/ApiKeys';
 
+
+export function WOD() {
+    const word = fetch('get find word random url');
+
+}
+
+export function Card() {
+};
 export default function Body() {
     //Initializing values...
     const [transcribed, setTranscribed] = useState('Just say the word!')
@@ -21,10 +29,20 @@ export default function Body() {
         }
     };
 
+    const screenSize  = window.innerWidth;
+    const ShowCard = () => {
+        if (screenSize <= 760) {
+            const showCard = document.querySelector("card");
+        showCard.style.cssText(" display: flex");
+        }
+        
+    }
+
 
     async function Search(word) {
+        setTranscribed(word);
         // Storing response...
-        const response = await fetch('https://www.dictionaryapi.com/api/v3/references/collegiate/json/' + word + '?key=' + DictionApi.dict);
+        const response = await fetch(DictionApi.url + word + '?key=' + DictionApi.dict);
 
         // Storing data in form of JSON...
         var data = await response.json();
@@ -32,8 +50,7 @@ export default function Body() {
 
         if (!(data[0].shortdef)) {
             const dataArr = data.map(data => {
-                const find = (data) => { return Search(data)};
-                return <li className="lst--item" onClick={find}> {data}</li>
+                return <li className="lst--item" onClick={() => Search(data)}> {data}</li>
             });
             // const dataArr = [];
             // for (let i = 0; i < data.length; i++) {
@@ -47,11 +64,18 @@ export default function Body() {
                     {dataArr}
                 </ul>
             )
+        } else if (data.length < 2) {
+            setDef1(data[0].shortdef[0]);
+            setDef2('');
         }
         else {
             setDef1(data[0].shortdef[0]);
             setDef2(data[1].shortdef[0]);
         }
+
+        ShowCard();
+
+        
 
     };
     // Adding functionality to record button...
@@ -70,7 +94,7 @@ export default function Body() {
             for (const result of event.results) {
                 accumulatedResult.push(`${result[0].transcript}`);
             }
-            setTranscribed(accumulatedResult);
+
             Search(accumulatedResult);
 
         };
@@ -102,4 +126,4 @@ export default function Body() {
             </div>
         </main >
     )
-}
+};
